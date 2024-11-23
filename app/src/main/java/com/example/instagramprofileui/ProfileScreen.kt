@@ -29,7 +29,6 @@ fun ProfileScreen() {
         AppBar("moham3d_amin", modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight(0.1f)
-            .padding(top = 20.dp)
             .padding(5.dp))
 
     }
