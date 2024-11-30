@@ -7,13 +7,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
@@ -24,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -33,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.math.sinh
 
 @Composable
 fun ProfileScreen() {
@@ -40,17 +46,9 @@ fun ProfileScreen() {
         AppBar("moham3d_amin", modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.padding(4.dp))
         ProfileDescription()
-        Spacer(modifier = Modifier.padding(4.dp))
-        ProfileInfo(
-            displayName = "Mohamed Amiin",
-            description = "Software Engineer/Android Dev \n" +
-                    "funniest man a live \n" +
-                    "follow me on Github",
-            url = "https://github.com/its-Moha?tab=repositories",
-            followedBy = listOf("Bil Gates", "Elon Musk"),
-            otherCount = 17
-        )
-
+        Spacer(modifier = Modifier.padding(18.dp))
+        ButtonSection(modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.padding(18.dp))
     }
 }
 
@@ -117,7 +115,18 @@ fun ProfileDescription(
                 modifier = Modifier
                     .weight(7f)
             )
+
         }
+        Spacer(modifier =Modifier.padding(4.dp))
+        ProfileInfo(
+            displayName = "Mohamed Amiin",
+            description = "Software Engineer/Android Dev \n" +
+                    "funniest man a live \n" +
+                    "follow me on Github",
+            url = "https://github.com/its-Moha?tab=repositories",
+            followedBy = listOf("Bil Gates", "Elon Musk"),
+            otherCount = 17
+        )
     }
 }
 
@@ -244,6 +253,81 @@ fun ProfileInfo(
     }
 }
 
+@Composable
+fun ButtonSection(
+    modifier: Modifier = Modifier
+) {
+    val minWidth = 95.dp
+    val height = 30.dp
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = modifier
+    ) {
+        ActionButton(
+            text = "Following",
+            icon = Icons.Filled.KeyboardArrowDown,
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height)
+        )
+        ActionButton(
+            text = "Message",
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height)
+        )
+        ActionButton(
+            text = "Email",
+            modifier = Modifier
+                .defaultMinSize(minWidth = minWidth)
+                .height(height)
+        )
+        ActionButton(
+
+            icon = Icons.Filled.KeyboardArrowDown,
+            modifier = Modifier
+                .height(height)
+        )
+    }
+    
+}
+
+@Composable
+fun ActionButton(
+
+    modifier: Modifier = Modifier,
+    text: String? = null,
+    icon: ImageVector? = null
+) {
+    Row(
+        horizontalArrangement = Arrangement.SpaceAround,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .border(
+                width = 1.dp,
+                color = Color.LightGray,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .padding(6.dp)
+    ) {
+        if (text != null) {
+            Text(
+                text = text,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp
+            )
+        }
+        if (icon != null){
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                tint = Color.Black
+            )
+        }
+    }
+    
+}
+
 
 
 @Preview(showSystemUi = true, device = Devices.PIXEL_4)
@@ -253,16 +337,9 @@ fun ScreenPreview() {
         AppBar("moham3d_amin", modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.padding(4.dp))
         ProfileDescription()
-        Spacer(modifier = Modifier.padding(4.dp))
-        ProfileInfo(
-            displayName = "Mohamed Amiin",
-            description = "Software Engineer/Android Dev \n" +
-                    "funniest man a live \n" +
-                    "follow me on Github",
-            url = "https://github.com/its-Moha?tab=repositories",
-            followedBy = listOf("Bil Gates","Elon Musk"),
-            otherCount = 17
-        )
+        Spacer(modifier = Modifier.padding(18.dp))
+        ButtonSection(modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.padding(20.dp))
     }
 }
 
