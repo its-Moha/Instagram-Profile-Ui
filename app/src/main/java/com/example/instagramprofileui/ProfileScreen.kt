@@ -25,6 +25,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
@@ -38,6 +40,16 @@ fun ProfileScreen() {
         AppBar("moham3d_amin", modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.padding(4.dp))
         ProfileDescription()
+        Spacer(modifier = Modifier.padding(4.dp))
+        ProfileInfo(
+            displayName = "Mohamed Amiin",
+            description = "Software Engineer/Android Dev \n" +
+                    "funniest man a live \n" +
+                    "follow me on Github",
+            url = "https://github.com/its-Moha?tab=repositories",
+            followedBy = listOf("Bil Gates", "Elon Musk"),
+            otherCount = 17
+        )
 
     }
 }
@@ -96,7 +108,7 @@ fun ProfileDescription(
             RoundImage(
                 image = painterResource(id =R.drawable.aa),
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(90.dp)
                     .weight(3f) // this means our image will take 30% of our width
                                 // and our stat section will take the other 70%
             )
@@ -107,7 +119,6 @@ fun ProfileDescription(
             )
         }
     }
-
 }
 
 @Composable
@@ -124,9 +135,11 @@ fun RoundImage(
                 matchHeightConstraintsFirst = true // this will look the height of our image and it adjust the width accordingly
                 //and what ever our height is it will sign to width
             )
-            .border(width = 1.dp
-                , color = Color.Gray,
-                shape = CircleShape)
+            .border(
+                width = 1.dp,
+                color = Color.Gray,
+                shape = CircleShape
+            )
             .padding(3.dp)
             .clip(CircleShape)
     )
@@ -161,6 +174,78 @@ fun ProfileStat(
     }
 }
 
+@Composable
+fun ProfileInfo(
+    displayName:String,
+    description:String,
+    url:String,
+    followedBy:List<String>,
+    otherCount:Int
+
+) {
+    val letterSpacing = 0.5.sp
+    val lineHeight = 20.sp
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 20.dp)
+            .fillMaxWidth()
+    ) {
+
+        Text(
+            text = displayName,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = letterSpacing,
+            lineHeight = lineHeight
+        )
+
+        Text(
+            text = description,
+            letterSpacing = letterSpacing,
+            lineHeight = lineHeight
+        )
+
+        Text(
+            text = url,
+            color = Color(0xff3D3D91),
+            letterSpacing = letterSpacing,
+            lineHeight = lineHeight
+        )
+
+        if (followedBy.isNotEmpty()){
+            Text(
+                text = buildAnnotatedString {
+                    val boldStyle = SpanStyle(
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
+                    append("followed by ")
+                    followedBy.forEachIndexed { index, name ->
+                        pushStyle(boldStyle)
+                        append(name)
+                        pop()
+                        if (index < followedBy.size - 1) {
+                            append(", ")
+                        }
+                    }
+                        if (otherCount > 2){
+                            append(" and ")
+                            pushStyle(boldStyle)
+                            append("$otherCount others")
+                        }
+
+
+                },
+                lineHeight = lineHeight,
+                letterSpacing = letterSpacing
+
+            )
+        }
+
+    }
+}
+
+
+
 @Preview(showSystemUi = true, device = Devices.PIXEL_4)
 @Composable
 fun ScreenPreview() {
@@ -168,6 +253,16 @@ fun ScreenPreview() {
         AppBar("moham3d_amin", modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.padding(4.dp))
         ProfileDescription()
+        Spacer(modifier = Modifier.padding(4.dp))
+        ProfileInfo(
+            displayName = "Mohamed Amiin",
+            description = "Software Engineer/Android Dev \n" +
+                    "funniest man a live \n" +
+                    "follow me on Github",
+            url = "https://github.com/its-Moha?tab=repositories",
+            followedBy = listOf("Bil Gates","Elon Musk"),
+            otherCount = 17
+        )
     }
 }
 
