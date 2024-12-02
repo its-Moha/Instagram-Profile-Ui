@@ -1,6 +1,7 @@
 package com.example.instagramprofileui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,8 +23,14 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -43,6 +50,9 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ProfileScreen() {
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
     Column(modifier = Modifier.fillMaxSize()) {
         AppBar("moham3d_amin", modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.padding(4.dp))
@@ -52,30 +62,56 @@ fun ProfileScreen() {
         Spacer(modifier = Modifier.padding(18.dp))
         Highlights(
             highlights = listOf(
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.aboutme),
                     text = "About Me"
                 ),
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.quran),
                     text = "Quran"
                 ),
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.learning),
                     text = "Learning"
                 ),
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.coding),
                     text = "Coding"
                 ),
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.travelimage),
                     text = "Travel"
                 )
 
             ),
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
         )
+        Spacer(Modifier.height(15.dp))
+        PostTabView(
+            imageWithText = listOf(
+                ImageWithText(
+                    image = painterResource(id = R.drawable.baseline_grid_on_24),
+                    "Posts"
+                ),
+                ImageWithText(
+                    image = painterResource(id = R.drawable.reels),
+                    "Reels"
+                ),
+                ImageWithText(
+                    image = painterResource(id = R.drawable.igtv),
+                    "IGTV"
+                ),
+                ImageWithText(
+                    image = painterResource(id = R.drawable.igprofile),
+                    "Profile"
+                ),
+
+            )
+        ) {
+            selectedTabIndex = it
+        }
     }
 }
 
@@ -358,7 +394,7 @@ fun ActionButton(
 @Composable
 fun Highlights(
     modifier: Modifier = Modifier,
-    highlights: List<StoryHighlights>
+    highlights: List<ImageWithText>
 ) {
 
     LazyRow(modifier = modifier){
@@ -384,11 +420,58 @@ fun Highlights(
     }
 }
 
+@Composable
+fun PostTabView(
+    modifier: Modifier = Modifier,
+    imageWithText: List<ImageWithText>,
+    onTabSelected: (selectedIndex:Int) -> Unit //when ever we selected tab this function will be triggered
+
+) {
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0) }
+    val inActiveColor = Color(0xff777777)
+    TabRow(
+        selectedTabIndex = selectedTabIndex,
+        containerColor = Color.Transparent,
+        modifier = modifier.background(Color.Transparent)
+
+    ) {
+
+        imageWithText.forEachIndexed { index, item ->
+
+            Tab(
+                selected = selectedTabIndex == index,
+                selectedContentColor = Color.Black,
+                unselectedContentColor = inActiveColor,
+                onClick = {
+                    selectedTabIndex = index
+                    onTabSelected(index)
+                }
+            ) {
+                Icon(
+                    painter = item.image,
+                    contentDescription = item.text,
+                    tint = if (selectedTabIndex == index) Color.Black else inActiveColor,
+                    modifier = Modifier
+                        .padding(10.dp)
+                        .size(20.dp)
+                )
+            }
+        }
+
+    }
+
+}
+
+
 
 
 @Preview(showSystemUi = true, device = Devices.PIXEL_4)
 @Composable
 fun ScreenPreview() {
+    var selectedTabIndex by remember {
+        mutableIntStateOf(0)
+    }
     Column(modifier = Modifier.fillMaxSize()) {
         AppBar("moham3d_amin", modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.padding(4.dp))
@@ -398,30 +481,56 @@ fun ScreenPreview() {
         Spacer(modifier = Modifier.padding(20.dp))
         Highlights(
             highlights = listOf(
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.aboutme),
                     text = "About Me"
                 ),
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.quran),
                     text = "Quran"
                 ),
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.learning),
                     text = "Learning"
                 ),
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.coding),
                     text = "Coding"
                 ),
-                StoryHighlights(
+                ImageWithText(
                     image = painterResource(id = R.drawable.travelimage),
                     text = "Travel"
                 )
 
             ),
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
         )
+        Spacer(Modifier.height(15.dp))
+        PostTabView(
+            imageWithText = listOf(
+                ImageWithText(
+                    image = painterResource(id = R.drawable.baseline_grid_on_24),
+                    "Posts"
+                ),
+                ImageWithText(
+                    image = painterResource(id = R.drawable.reels),
+                    "Reels"
+                ),
+                ImageWithText(
+                    image = painterResource(id = R.drawable.igtv),
+                    "IGTV"
+                ),
+                ImageWithText(
+                    image = painterResource(id = R.drawable.igprofile),
+                    "Profile"
+                ),
+
+                )
+        ) {
+            selectedTabIndex = it
+        }
     }
 }
 
