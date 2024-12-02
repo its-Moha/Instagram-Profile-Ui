@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -34,9 +36,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -57,9 +61,9 @@ fun ProfileScreen() {
         AppBar("moham3d_amin", modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.padding(4.dp))
         ProfileDescription()
-        Spacer(modifier = Modifier.padding(18.dp))
+        Spacer(modifier = Modifier.padding(15.dp))
         ButtonSection(modifier = Modifier.fillMaxWidth())
-        Spacer(modifier = Modifier.padding(18.dp))
+        Spacer(modifier = Modifier.padding(13.dp))
         Highlights(
             highlights = listOf(
                 ImageWithText(
@@ -111,6 +115,22 @@ fun ProfileScreen() {
             )
         ) {
             selectedTabIndex = it
+        }
+        when(selectedTabIndex){
+            0 -> PostSection(
+                posts = listOf(
+                    painterResource(id = R.drawable.dd),
+                    painterResource(id = R.drawable.ee),
+                    painterResource(id = R.drawable.aa),
+                    painterResource(id = R.drawable.ff),
+                    painterResource(id = R.drawable.gg),
+                    painterResource(id = R.drawable.hh),
+                    painterResource(id = R.drawable.ii),
+                    painterResource(id = R.drawable.cc),
+                    painterResource(id = R.drawable.bb),
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
@@ -463,7 +483,32 @@ fun PostTabView(
 
 }
 
+@Composable
+fun PostSection(
+    modifier: Modifier = Modifier,
+    posts: List<Painter> //list of images
+) {
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(3),
+        modifier = modifier
+            .scale(1.01f)
+    ) {
+        items(posts.size){
+            Image(
+                painter = posts[it],
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .aspectRatio(1f)
+                    .border(
+                        width = 1.dp,
+                        color = Color.White
+                    )
+            )
+        }
+    }
 
+}
 
 
 @Preview(showSystemUi = true, device = Devices.PIXEL_4)
@@ -476,9 +521,9 @@ fun ScreenPreview() {
         AppBar("moham3d_amin", modifier = Modifier.padding(10.dp))
         Spacer(modifier = Modifier.padding(4.dp))
         ProfileDescription()
-        Spacer(modifier = Modifier.padding(18.dp))
+        Spacer(modifier = Modifier.padding(15.dp))
         ButtonSection(modifier = Modifier.fillMaxWidth())
-        Spacer(modifier = Modifier.padding(20.dp))
+        Spacer(modifier = Modifier.padding(13.dp))
         Highlights(
             highlights = listOf(
                 ImageWithText(
@@ -530,6 +575,22 @@ fun ScreenPreview() {
                 )
         ) {
             selectedTabIndex = it
+        }
+        when(selectedTabIndex){
+            0 -> PostSection(
+                posts = listOf(
+                    painterResource(id = R.drawable.dd),
+                    painterResource(id = R.drawable.ee),
+                    painterResource(id = R.drawable.aa),
+                    painterResource(id = R.drawable.ff),
+                    painterResource(id = R.drawable.gg),
+                    painterResource(id = R.drawable.hh),
+                    painterResource(id = R.drawable.ii),
+                    painterResource(id = R.drawable.cc),
+                    painterResource(id = R.drawable.bb),
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }
