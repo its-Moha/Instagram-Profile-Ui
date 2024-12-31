@@ -375,6 +375,37 @@ fun ButtonSection(
     
 }
 
+
+
+@Composable
+fun Highlights(
+    modifier: Modifier = Modifier,
+    highlights: List<ImageWithText>
+) {
+
+    LazyRow(modifier = modifier){
+        //how many items do we have
+        items(highlights.size ){
+            // how our one single highlight will look like
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.padding(end = 15.dp)
+            ) {
+                RoundImage(
+                    image = highlights[it].image,
+                    modifier = Modifier.size(70.dp)
+                )
+                Text(
+                    highlights[it].text,
+                    textAlign = TextAlign.Center,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        }
+    }
+}
+
 @Composable
 fun ActionButton(
 
@@ -408,38 +439,8 @@ fun ActionButton(
             )
         }
     }
-    
+
 }
-
-@Composable
-fun Highlights(
-    modifier: Modifier = Modifier,
-    highlights: List<ImageWithText>
-) {
-
-    LazyRow(modifier = modifier){
-        //how many items do we have
-        items(highlights.size ){
-            // how our one single highlight will look like
-            Column(
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.padding(end = 15.dp)
-            ) {
-                RoundImage(
-                    image = highlights[it].image,
-                    modifier = Modifier.size(70.dp)
-                )
-                Text(
-                    highlights[it].text,
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        }
-    }
-}
-
 @Composable
 fun PostTabView(
     modifier: Modifier = Modifier,
